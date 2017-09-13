@@ -1,0 +1,6 @@
+.metadata/
+.recommenders/
+dist/
+RemoteSystemsTempFiles/
+TaskList/.*
+TaskList/target/classes/poc/TaskList/*.*

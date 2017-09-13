@@ -1,0 +1,125 @@
+<style>
+	 .table-hover tbody tr:hover td {
+    background-color: #D1D119;
+}
+	.table>tbody>tr.active>td {
+	background: #123456;
+	color: #fff;
+}
+
+textarea {
+   resize: none;
+}
+
+.campo-invalido{
+    border: 1px solid red;
+}
+</style>
+
+<ul class="nav nav-tabs">
+	<li id="li-pesquisa" class="active" onclick="onControlarTab(2)"><a>Pesquisa</a></li>
+    <li id="li-cadastro" onclick="onControlarTab(1)"><a>Cadastro</a></li>
+</ul>
+
+<!-- <<<<<<<<<<<<<<< INICIO DA LISTA DE PATRIMONIO  >>>>>>>>>>>>>>>>> -->
+<div class="container" id="div-pesquisa">
+	<h2>Tasklist</h2>
+	<div class="input-group">
+  		<span class=" input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-search"></span></span>
+  		<input type="text" class="form-control" aria-describedby="basic-addon1" ng-model="criteria" maxlength="50">
+	</div>
+	<br>
+	<table class="table table-condensed table-striped table-bordered no-margin table-hover pull-right">
+		<thead>
+			<tr >
+				<th>Código</th>
+				<th>Descrição</th>
+				<th>Observação</th>
+				<th>Categoria</th>
+				<th>Editar</th>
+				<th>Excluir</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="task in taskList | filter:criteria track by $index">
+				<td ng-bind="::task.codigo"></td>
+				<td>{{task.descricao}}</td>
+				<td>{{task.categoria}}</td>
+				<td>{{task.observacao}}</td>
+				<td>
+					<button type="button" class="btn btn-default btn-xs" ng-click="onClickBtnEditar($index, patrimonio)">
+  						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 
+					</button>
+				</td>
+				<td>
+					<button type="button" class="btn btn-default btn-xs"  data-toggle="modal" data-target="#modal-exclusao">
+  						<span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="onClickBtnExcluirPatrimonio($index, patrimonio)"></span> 
+					</button>
+				</td>
+			</tr>					
+		</tbody>
+	</table>
+</div>
+<!-- <<<<<<<<<<<<<<< FINAL DA LISTA DE PATRIMONIO  >>>>>>>>>>>>>>>>> -->
+
+<!-- <<<<<<<<<<<<<<< INICIO FORMULÃ�RIO DE CADASTRO >>>>>>>>>>>>>>>>> -->
+<div class="container" id="div-cadastro" style="display: none;">
+ 	<h2>Nova Task</h2>
+ 	
+ 	 <!-- titulo;
+	 status;
+	 descricao;
+	 criacao;
+	 edicao;
+	 remocao;
+	 conclusao; -->
+	
+		<div class="form-group">
+			<label for="selectCatergoria">Status:</label>
+			<select id="sel-status" class="form-control campo-obrigatorio" id="sel-categoria"  ng-model="task.status" ng-options="status for status in lista_status">
+				<option></option>
+			</select>
+		</div>
+		<div class="form-group">
+				<label for="codigo">Título:</label>
+				<input id="i-codigo" class="form-control campo-obrigatorio"   ng-model="task.titulo" maxlength="8" >
+		</div>
+		<div class="form-group">
+				<label for="descricao">Descricao:</label>
+				<input id="i-descricao" class="form-control campo-obrigatorio" ng-model="task.descricao" maxlength="90" >
+		</div>
+		<div class="form-group">
+				<label for="observacao">Observação:</label>
+				<textarea id="i-observacao" class="form-control"  ng-model="task.observacao" maxlength="250">
+				</textarea>
+		</div>
+		
+		<button  class="btn btn-sucess" ng-click="onClickBtnSalvar()" >Salvar</button>
+		<button  class="btn btn-sucess" ng-click="onClickBtnLimparCampos()" >Limpar</button>	
+</div>
+<!-- <<<<<<<<<<<<<<< FINAL DO FORMULARIO DE CASATRO  >>>>>>>>>>>>>>>>> -->
+
+<!-- <<<<<<<<<<<<<<< INICIO MODAL EXCLUSÃƒO           >>>>>>>>>>>>>>>>> -->
+  <div class="modal fade" id="modal-exclusao" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title label label-danger">ATENÇÃO</h4>
+        </div>
+        <div class="modal-body">
+          <p>Deseja realmente excluir o patrimonio <strong><span id="sp-item-exclusao-descricao"></span></strong>, código <strong><span id="sp-item-exclusao-codigo"></strong>?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="onClickConfirmarExcluirPatrimonio(itemExclusao.indice)">Sim</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Não</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<!-- <<<<<<<<<<<<<<< FINAL MODAL ESCLUSAO            >>>>>>>>>>>>>>>>> -->
+
+  
