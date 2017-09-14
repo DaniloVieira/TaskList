@@ -1,17 +1,23 @@
 package poc.TaskList;
 
-import java.util.Date;
-
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import poc.TaskList.model.Task;
-import poc.TaskList.repository.TaskRepository;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @SpringBootApplication
 public class TaskListApplication {
+
+	@Bean
+	public WebMvcConfigurerAdapter corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/tasks").allowedOrigins("*");
+			}
+		};
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(TaskListApplication.class, args);		

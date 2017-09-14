@@ -1,32 +1,39 @@
 package poc.TaskList.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import poc.TaskList.model.Task;
 import poc.TaskList.service.TaskService;
 
-@CrossOrigin // nao sei pra que serve isso
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
-@RequestMapping(value = "/tasklist", produces = { org.springframework.http.MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/")
 public class TaskRest {
 	
 	@Autowired
 	private TaskService service;
-	
-	@RequestMapping(value = "/task", method = RequestMethod.PUT)
-	public Task save( @RequestBody Task task) {
+
+	@PostMapping("/tasks")
+	public @ResponseBody Task save(@RequestBody Task task) {
 		try {
 			service.save(task);
 		} catch (Exception e) {
-			
 			e.printStackTrace();
 		}
 		return task;
+	}
+
+	@GetMapping("/tasks")
+	public @ResponseBody List<Task> test() {
+		Task task = new Task();
+		task.setDescricao("teste");
+
+		List<Task> tasks = new ArrayList<>();
+		tasks.add(task);
+		return tasks;
 	}
 
 }
